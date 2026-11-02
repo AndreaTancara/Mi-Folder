@@ -1,0 +1,172 @@
+/* Mi Folder · Estilos complementarios: colores por folder, cartas y calculadora. */
+.card.cream {
+  border-top: 5px solid #bda568;
+  --accent: #806523;
+}
+.condition {
+  padding: 14px 20px;
+  background: #fffaed;
+  border-top: 1px solid #eadfc4;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.condition .inline {
+  margin: 7px 0;
+}
+.estimate {
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+}
+.estimate dt {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 15px;
+}
+.estimate dd {
+  margin: 5px 0;
+}
+.estimate .total {
+  font-size: 30px;
+  font-weight: 750;
+  color: var(--accent);
+}
+.summary-number small {
+  font-size: 18px;
+}
+.record-scroll {
+  overflow: auto;
+  max-height: 650px;
+  margin-top: 15px;
+  border: 1px solid var(--line);
+}
+#record-stage {
+  position: relative;
+  width: 100%;
+  line-height: 0;
+}
+#record-image {
+  width: 100%;
+  display: block;
+  cursor: crosshair;
+}
+#record-marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.record-marker {
+  pointer-events: auto;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: 2px solid #fff;
+  background: #b5263d;
+  color: #fff;
+  border-radius: 50%;
+  height: 27px;
+  min-width: 27px;
+  padding: 3px;
+  font-size: 12px;
+  box-shadow: 0 1px 4px #0006;
+}
+.letter-layout {
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  gap: 24px;
+}
+.letter-paper {
+  background: #fff;
+  padding: 45px 35px;
+  border: 1px solid var(--line);
+  white-space: pre-wrap;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  align-self: start;
+  overflow-wrap: anywhere;
+}
+.letter-layout .panel {
+  align-self: start;
+}
+nav {
+  flex-wrap: wrap;
+}
+ol {
+  padding-left: 20px;
+  line-height: 1.8;
+}
+@media (max-width: 850px) {
+  .letter-layout {
+    grid-template-columns: 1fr;
+  }
+  .letter-paper {
+    padding: 25px 20px;
+  }
+}
+@media print {
+  .condition {
+    background: white;
+  }
+  .letter-layout {
+    display: block;
+  }
+  .letter-paper {
+    border: 0;
+    padding: 10mm;
+    font-size: 11pt;
+    line-height: 1.5;
+    overflow-wrap: normal;
+  }
+  .printing-letter main {
+    padding: 0;
+  }
+  .printing-letter .no-print {
+    display: none !important;
+  }
+  .record-scroll {
+    display: none;
+  }
+}
+
+/* Laravel: botón Salir dentro del menú y páginas de cuenta / panel */
+.nav-form {
+  display: inline;
+  margin: 0;
+}
+.nav-form button.link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.cuenta {
+  max-width: 440px;
+  margin: 20px auto;
+}
+.cuenta .errores {
+  color: #9d3232;
+  font-size: 14px;
+}
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+.panel-grid .panel b {
+  display: block;
+  font-size: 34px;
+}
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.tabla th,
+.tabla td {
+  text-align: left;
+  padding: 10px 6px;
+  border-bottom: 1px solid var(--line);
+}
