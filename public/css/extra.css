@@ -286,3 +286,193 @@ ol {
     display: none;
   }
 }
+.aviso-ok {
+  color: var(--accent);
+  font-weight: 600;
+}
+.aviso-error {
+  color: #b42318;
+}
+.panel-grid .panel.alerta b {
+  color: #b45309;
+}
+.colacion-form form {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  gap: 12px;
+  align-items: end;
+}
+.tabla-scroll {
+  overflow-x: auto;
+}
+.tabla-scroll .tabla {
+  min-width: 720px;
+}
+.fila-atencion {
+  background: rgba(245, 158, 11, 0.08);
+}
+.etiqueta {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(15, 118, 110, 0.12);
+  color: var(--accent);
+}
+.etiqueta.pausa,
+.etiqueta.por_vencer,
+.etiqueta.inactivo {
+  background: rgba(245, 158, 11, 0.16);
+  color: #b45309;
+}
+.etiqueta.vencida {
+  background: rgba(220, 38, 38, 0.12);
+  color: #b42318;
+}
+.datos-lista {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 16px;
+  font-size: 14px;
+}
+.datos-lista dt {
+  color: var(--muted);
+}
+.datos-lista dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.historial {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.historial li {
+  display: grid;
+  gap: 2px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.aviso-colacion {
+  margin: 0 0 18px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  font-weight: 600;
+}
+.pausa-tramite {
+  margin-top: 20px;
+}
+.pausa-tramite select,
+.pausa-tramite textarea {
+  width: 100%;
+  margin-bottom: 10px;
+}
+[data-theme='dark'] .etiqueta.pausa,
+[data-theme='dark'] .etiqueta.por_vencer,
+[data-theme='dark'] .etiqueta.inactivo,
+[data-theme='dark'] .panel-grid .panel.alerta b {
+  color: #fbbf24;
+}
+[data-theme='dark'] .etiqueta.vencida,
+[data-theme='dark'] .aviso-error {
+  color: #f87171;
+}
+@media (max-width: 780px) {
+  .colacion-form form {
+    grid-template-columns: 1fr;
+  }
+}
+.req-tool.validez {
+  flex-wrap: wrap;
+}
+.req-tool.validez input[type='date'] {
+  width: auto;
+  margin-left: 6px;
+}
+.req-tool.validez.vencido {
+  background: rgba(220, 38, 38, 0.1);
+}
+.req-tool.validez.por_vencer {
+  background: rgba(245, 158, 11, 0.14);
+}
+.cambiar-clave {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.cambiar-clave summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.buscador {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 14px 0;
+}
+.buscador input {
+  flex: 1 1 220px;
+  margin: 0;
+}
+.clave-nueva {
+  margin: 16px 0;
+  border: 2px solid var(--accent);
+}
+.clave-nueva b {
+  display: block;
+  font-size: 28px;
+  letter-spacing: 1px;
+  font-family: ui-monospace, monospace;
+}
+.guia-inicio {
+  max-width: 400px;
+  text-align: center;
+}
+.guia-inicio .guia-icono {
+  font-size: 54px;
+}
+.guia-inicio .actions {
+  justify-content: center;
+}
+.guia-puntos {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 14px 0;
+}
+.guia-puntos span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+.guia-puntos span.activo {
+  background: var(--accent);
+  width: 22px;
+  border-radius: 4px;
+}
+.faltan-boton {
+  margin: 4px 0 12px;
+}
+.faltan-lista {
+  padding-left: 22px;
+  margin: 20px 0;
+}
+.faltan-lista li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.faltan-lista li span {
+  display: block;
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 2px;
+}
+@media print {
+  .faltan-lista li {
+    break-inside: avoid;
+  }
+}

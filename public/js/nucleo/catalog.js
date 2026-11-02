@@ -66,6 +66,7 @@ globalThis.KardexCatalog = {
         source:
           'Fotografía de convocatoria de titulación intermedia, agosto de 2026, recibida el 14/10/2026.',
         date: '2026-10-14',
+        validity: 'gestion',
         verified: false
       },
       {
@@ -311,6 +312,7 @@ globalThis.KardexCatalog = {
         source:
           'Fotografía de requisitos de conclusión de estudios de Licenciatura, agosto de 2026, recibida el 14/10/2026.',
         date: '2026-10-14',
+        validity: 'gestion',
         verified: false
       },
       {

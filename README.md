@@ -9,7 +9,11 @@ ahora con **Laravel** y **base de datos**.
   certificados con su récord y generan sus cartas. Si crean una cuenta, su avance se guarda
   en la base de datos y lo ven desde cualquier computadora.
 - **Personal de Kardex:** ingresa con su cuenta, edita la guía de requisitos (todos ven el cambio)
-  y ve un panel con estadísticas: estudiantes por folder, folders entregados y cartas generadas.
+  y ve un panel con estadísticas y el **seguimiento** de cada estudiante: quién pausó su trámite
+  y por qué, quién no avanza hace más de 30 días y a quién se le venció la tencia. También pone
+  la **fecha límite del acto de colación** y los estudiantes ven cuántos días les quedan.
+- **Tencia (certificado de documentos):** vale hasta el 31 de diciembre del año en que se saca.
+  El estudiante anota la fecha y la página le avisa cuando vence.
 
 ## Cómo correrlo en tu computadora (Laragon)
 
@@ -46,10 +50,10 @@ php artisan test
 | --- | --- |
 | `routes/web.php` | Las direcciones de la página (`/`, `/ingresar`, `/panel`, `/api/...`). Empieza a leer por aquí. |
 | `app/Http/Controllers/` | Lo que pasa cuando alguien entra a cada dirección. |
-| `app/Models/` | Las tablas de la base de datos como clases de PHP: `User`, `Nivel`, `Requisito`, `Avance`, `Carta`. |
+| `app/Models/` | Las tablas de la base de datos como clases de PHP: `User`, `Nivel`, `Requisito`, `Avance`, `Carta`, `Seguimiento`, `Ajuste`. |
 | `database/migrations/` | Cómo se crean las tablas. |
 | `database/seeders/` | Los datos iniciales: los 38 requisitos (`catalogo.json`) y la cuenta de Kardex. Solo se cargan la primera vez. |
-| `resources/views/` | Las páginas en HTML (Blade): `app` (la app), `auth/` (ingreso y registro), `panel`. |
+| `resources/views/` | Las páginas en HTML (Blade): `app` (la app), `auth/` (ingreso y registro), `panel` y `panel-estudiante`. |
 | `public/js/`, `public/css/` | El JavaScript y los estilos de la app original. `servidor.js` la conecta con Laravel. |
 | `app/Http/Middleware/SoloKardex.php` | Deja entrar al editor y al panel solo a la cuenta de Kardex. |
 | `tests/Feature/MiFolderTest.php` | Pruebas automáticas. |
@@ -62,6 +66,8 @@ php artisan test
 - `requisitos`: cada documento de cada folder, en orden.
 - `avances`: lo que cada estudiante marcó y en qué etapa está.
 - `cartas`: cuántas cartas se generaron de cada tipo (sin datos personales).
+- `seguimientos`: pausas de los estudiantes (con su motivo), cuándo retoman y notas de Kardex.
+- `ajustes`: valores sueltos que cambia Kardex, como la fecha del acto de colación.
 
 ## Seguridad
 

@@ -5,7 +5,11 @@
 (function (root) {
   const levels = {
     azul: { name: 'Técnico Superior', color: 'blue', folder: 'Folder azul · Etapa inicial' },
-    naranja: { name: 'Licenciatura', color: 'orange', folder: 'Folder naranja · Etapa inicial' },
+    naranja: {
+      name: 'Licenciatura',
+      color: 'orange',
+      folder: 'Folder naranja · Etapa inicial'
+    },
     crema_ts: {
       name: 'Modalidad de graduación TS',
       color: 'cream',
@@ -28,6 +32,7 @@
         demo: {},
         progress: {},
         excluded: {},
+        dates: {},
         process: {},
         workflow: {
           azul: { screened: false, delivered: false, returned: false, purchase: null },
@@ -40,6 +45,30 @@
       s.process[k] = data.process[k] || '';
     }
     return s;
+  }
+  // Documentos que vencen: 'gestion' = vale hasta el 31 de diciembre del año en que se sacó.
+  const VALIDITY = ['gestion'];
+  function expiry(date, validity) {
+    if (!VALIDITY.includes(validity) || !/^\d{4}-\d{2}-\d{2}$/.test(date || '')) return null;
+    return date.slice(0, 4) + '-12-31';
+  }
+  // Estado de un documento con fecha: vigente, por_vencer (30 días o menos) o vencido.
+  function today() {
+    const d = new Date();
+    return (
+      d.getFullYear() +
+      '-' +
+      String(d.getMonth() + 1).padStart(2, '0') +
+      '-' +
+      String(d.getDate()).padStart(2, '0')
+    );
+  }
+  function validityStatus(date, validity, now = today()) {
+    const end = expiry(date, validity);
+    if (!end) return null;
+    if (now > end) return { end, status: 'vencido' };
+    const days = Math.round((Date.parse(end) - Date.parse(now)) / 86400000);
+    return { end, days, status: days <= 30 ? 'por_vencer' : 'vigente' };
   }
   const fields = [
     'id',
@@ -86,6 +115,7 @@
           o.verified = r.verified === true;
           o.condition = typeof r.condition === 'string' ? r.condition : '';
           if (o.condition.length > 2000) throw Error('Condición demasiado extensa.');
+          o.validity = VALIDITY.includes(r.validity) ? r.validity : '';
           return o;
         });
         s[kind][l] =
@@ -103,6 +133,8 @@
           const k = mode + ':' + l + ':' + r.id;
           if (input.progress[k] === true) s.progress[k] = true;
           if (r.condition && input.excluded?.[k] === true) s.excluded[k] = true;
+          const d = input.dates?.[k];
+          if (typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d)) s.dates[k] = d;
         }
     for (const l of Object.keys(levels)) {
       const p = input.process?.[l];
@@ -179,7 +211,20 @@
       cost = quantity * 3;
     return { lines, base, quantity, cost, conclusion: 10, total: cost + 10 };
   }
-  const api = { levels, seed, validate, items, key, applicable, stats, estimate };
+  const api = {
+    levels,
+    seed,
+    validate,
+    items,
+    key,
+    applicable,
+    stats,
+    estimate,
+    VALIDITY,
+    expiry,
+    validityStatus,
+    today
+  };
   root.FolderCore = api;
   if (typeof module !== 'undefined') module.exports = api;
 })(typeof window !== 'undefined' ? window : globalThis);

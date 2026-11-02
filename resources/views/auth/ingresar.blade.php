@@ -17,5 +17,6 @@
     <label class="inline"><input type="checkbox" name="recordar" /> Recordarme en este equipo</label>
     <button class="primary" style="width: 100%; margin-top: 16px">Ingresar</button>
     <p class="muted">¿No tienes cuenta? <a href="{{ url('/registro') }}">Crea una gratis</a>.</p>
+    <p class="muted">¿Olvidaste tu contraseña? Acércate a Kardex con tu carnet y te darán una nueva.</p>
   </form>
 @endsection

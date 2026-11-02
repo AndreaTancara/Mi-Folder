@@ -37,6 +37,21 @@
       <button style="margin-top: 14px">Guardar cambios</button>
     </form>
 
+    <details class="cambiar-clave" @if ($errors->hasAny(['clave_actual', 'password'])) open @endif>
+      <summary>🔑 Cambiar mi contraseña</summary>
+      <form method="POST" action="{{ url('/cuenta/clave') }}">
+        @csrf
+        @method('PUT')
+        <label for="clave_actual">Contraseña actual</label>
+        <div class="clave"><input id="clave_actual" name="clave_actual" type="password" required autocomplete="current-password" /><button type="button" data-ver-clave>Mostrar</button></div>
+        <label for="password">Contraseña nueva (mínimo 8 caracteres)</label>
+        <div class="clave"><input id="password" name="password" type="password" required minlength="8" autocomplete="new-password" /><button type="button" data-ver-clave>Mostrar</button></div>
+        <label for="password_confirmation">Repite la contraseña nueva</label>
+        <div class="clave"><input id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password" /><button type="button" data-ver-clave>Mostrar</button></div>
+        <button style="margin-top: 14px">Cambiar contraseña</button>
+      </form>
+    </details>
+
     <div class="acciones">
       @if ($user->esKardex())
         <a class="button primary" href="{{ url('/panel') }}">Ir al panel</a>

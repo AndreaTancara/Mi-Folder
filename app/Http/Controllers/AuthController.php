@@ -89,12 +89,26 @@ class AuthController extends Controller
         return back()->with('ok', 'Datos guardados.');
     }
 
+    // Cambiar la contraseña: pide la actual para que nadie la cambie desde una sesión olvidada abierta.
+    public function cambiarClave(Request $request)
+    {
+        $datos = $request->validate([
+            'clave_actual' => ['required', 'current_password'],
+            'password' => ['required', 'string', 'min:8', 'confirmed', 'different:clave_actual'],
+        ]);
+        $request->user()->update(['password' => $datos['password']]);
+
+        return back()->with('ok', 'Contraseña cambiada.');
+    }
+
     public function salir(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        // "salio" le dice a la página que borre el avance guardado en este navegador,
+        // así el siguiente estudiante que use la computadora empieza de cero.
+        return redirect('/')->with('salio', true)->with('aviso', 'Cerraste sesión. Tu avance quedó guardado en tu cuenta.');
     }
 }

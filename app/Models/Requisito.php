@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 #[Fillable([
     'nivel', 'codigo', 'orden', 'titulo', 'descripcion', 'donde', 'como', 'costo',
-    'tiempo', 'revisar', 'condicion', 'fuente', 'fecha', 'verificado',
+    'tiempo', 'revisar', 'condicion', 'vigencia', 'fuente', 'fecha', 'verificado',
 ])]
 class Requisito extends Model
 {
@@ -22,9 +22,23 @@ class Requisito extends Model
         'tiempo' => 'time',
         'revisar' => 'check',
         'condicion' => 'condition',
+        'vigencia' => 'validity',
         'fuente' => 'source',
         'fecha' => 'date',
     ];
+
+    // "gestion": el documento vale hasta el 31 de diciembre del año en que se sacó.
+    public const VIGENCIAS = ['gestion'];
+
+    // Último día en que vale un documento sacado en $fecha (formato AAAA-MM-DD).
+    public static function venceEl(?string $fecha, ?string $vigencia): ?string
+    {
+        if ($vigencia !== 'gestion' || ! preg_match('/^(\d{4})-\d{2}-\d{2}$/', (string) $fecha, $m)) {
+            return null;
+        }
+
+        return $m[1].'-12-31';
+    }
 
     protected function casts(): array
     {
@@ -53,6 +67,7 @@ class Requisito extends Model
         foreach (self::CAMPOS as $columna => $campo) {
             $datos[$columna] = trim((string) ($r[$campo] ?? ''));
         }
+        $datos['vigencia'] = in_array($datos['vigencia'], self::VIGENCIAS, true) ? $datos['vigencia'] : null;
         $datos['verificado'] = ($r['verified'] ?? false) === true;
 
         return $datos;

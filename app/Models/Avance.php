@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['nivel', 'marcados', 'no_aplica', 'tramite'])]
+#[Fillable(['nivel', 'marcados', 'no_aplica', 'tramite', 'fechas'])]
 class Avance extends Model
 {
     protected function casts(): array
@@ -15,6 +15,7 @@ class Avance extends Model
             'marcados' => 'array',
             'no_aplica' => 'array',
             'tramite' => 'array',
+            'fechas' => 'array',
         ];
     }
 

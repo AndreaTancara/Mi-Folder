@@ -105,6 +105,23 @@ function planTool(r) {
     ? `<div class="req-tool no-print"><span>📘 ${esc(planText(plans))}</span></div>`
     : `<div class="req-tool no-print"><span>📘 ¿Qué plan te corresponde? Aparece en tu récord. Súbelo en <strong>Certificados de calificaciones</strong> y te lo mostramos.</span><a class="button small" href="#calculadora">Subir mi récord</a></div>`;
 }
+// Documentos que vencen (tencia): el estudiante anota cuándo lo sacó y ve hasta cuándo vale.
+function fmtDate(d) {
+  return d.split('-').reverse().join('/');
+}
+function validityTool(r) {
+  if (!C.VALIDITY.includes(r.validity)) return '';
+  const date = state.dates[C.key(state, r.id)] || '',
+    v = C.validityStatus(date, r.validity);
+  const status = !v
+    ? '📅 Vale solo hasta el 31 de diciembre del año en que la sacas. Anota la fecha para avisarte.'
+    : v.status === 'vencido'
+      ? `⚠️ <strong>Venció el ${fmtDate(v.end)}.</strong> Tienes que volver a hacer el depósito y sacarla de nuevo.`
+      : v.status === 'por_vencer'
+        ? `⏳ <strong>Vence pronto:</strong> vale hasta el ${fmtDate(v.end)} (${v.days === 0 ? 'hoy es el último día' : 'faltan ' + v.days + (v.days === 1 ? ' día' : ' días')}). Entrega tu folder antes.`
+        : `✅ Vale hasta el ${fmtDate(v.end)}.`;
+  return `<div class="req-tool no-print validez ${v ? v.status : ''}"><span>${status}</span><label class="inline">¿Cuándo la sacaste? <input type="date" data-issued="${r.id}" value="${date}" max="${C.today()}"></label></div>`;
+}
 function list() {
   const all = C.items(state),
     visible = all.filter(
@@ -119,7 +136,7 @@ function list() {
       : visible
           .map(
             r =>
-              `<article class="requirement"><div class="requirement-head"><input type="checkbox" ${r.condition && state.excluded[C.key(state, r.id)] ? 'disabled' : ''} id="check-${r.id}" data-check="${r.id}" ${state.progress[C.key(state, r.id)] ? 'checked' : ''}><label for="check-${r.id}"><strong>${esc(r.title)}</strong><span class="chips"><span class="chip">📍 ${esc(r.where)}</span>${state.mode === 'demo' ? '<span class="tag">Ejemplo ficticio</span>' : r.verified ? '<span class="tag ok">✓ Contrastado</span>' : ''}</span></label><button class="small" data-details="${r.id}" aria-expanded="${opened.has(r.id)}" aria-controls="details-${r.id}">${opened.has(r.id) ? 'Ocultar' : 'Ver más'}</button></div>${/^(azul|naranja)_notas$/.test(r.id) && !state.level.startsWith('crema') ? `<div class="req-tool no-print">${state.workflow?.[state.level]?.purchase ? `<span>✅ Ya calculaste: <strong>${state.workflow[state.level].purchase.quantity} certificados</strong> · cómpralos en venta de valores</span><a class="button small" href="#calculadora">Volver a calcular</a>` : `<span>🧮 ¿Cuántos certificados compras? Sube tu récord y te lo calculamos.</span><a class="button small primary" href="#calculadora">Calcular con mi récord →</a>`}</div>` : ''}${letterTool(r)}${planTool(r)}${r.condition ? `<div class="condition"><strong>Solo si:</strong> ${esc(r.condition)}<label class="inline"><input type="checkbox" data-exclude="${r.id}" ${state.excluded[C.key(state, r.id)] ? 'checked' : ''}> No es mi caso <small class="muted">(si dudas, pregunta en Kardex)</small></label></div>` : ''}<div class="details" id="details-${r.id}" ${opened.has(r.id) ? '' : 'hidden'}><div class="example" data-example="${r.id}"></div><dl><dt>📄 Para qué sirve</dt><dd>${esc(r.description)}</dd><dt>📍 Dónde conseguirlo</dt><dd>${esc(r.where)}</dd><dt>🛠️ Cómo hacerlo</dt><dd>${esc(r.how)}</dd><dt>⏱ Tiempo</dt><dd>${esc(r.time || 'Por confirmar')}</dd><dt>⚠️ Ojo antes de incluirlo</dt><dd>${esc(r.check)}</dd></dl><div class="source">Fuente: ${esc(r.source)} · ${esc(r.date)}</div></div></article>`
+              `<article class="requirement"><div class="requirement-head"><input type="checkbox" ${r.condition && state.excluded[C.key(state, r.id)] ? 'disabled' : ''} id="check-${r.id}" data-check="${r.id}" ${state.progress[C.key(state, r.id)] ? 'checked' : ''}><label for="check-${r.id}"><strong>${esc(r.title)}</strong><span class="chips"><span class="chip">📍 ${esc(r.where)}</span>${state.mode === 'demo' ? '<span class="tag">Ejemplo ficticio</span>' : r.verified ? '<span class="tag ok">✓ Contrastado</span>' : ''}</span></label><button class="small" data-details="${r.id}" aria-expanded="${opened.has(r.id)}" aria-controls="details-${r.id}">${opened.has(r.id) ? 'Ocultar' : 'Ver más'}</button></div>${/^(azul|naranja)_notas$/.test(r.id) && !state.level.startsWith('crema') ? `<div class="req-tool no-print">${state.workflow?.[state.level]?.purchase ? `<span>✅ Ya calculaste: <strong>${state.workflow[state.level].purchase.quantity} certificados</strong> · cómpralos en venta de valores</span><a class="button small" href="#calculadora">Volver a calcular</a>` : `<span>🧮 ¿Cuántos certificados compras? Sube tu récord y te lo calculamos.</span><a class="button small primary" href="#calculadora">Calcular con mi récord →</a>`}</div>` : ''}${letterTool(r)}${planTool(r)}${validityTool(r)}${r.condition ? `<div class="condition"><strong>Solo si:</strong> ${esc(r.condition)}<label class="inline"><input type="checkbox" data-exclude="${r.id}" ${state.excluded[C.key(state, r.id)] ? 'checked' : ''}> No es mi caso <small class="muted">(si dudas, pregunta en Kardex)</small></label></div>` : ''}<div class="details" id="details-${r.id}" ${opened.has(r.id) ? '' : 'hidden'}><div class="example" data-example="${r.id}"></div><dl><dt>📄 Para qué sirve</dt><dd>${esc(r.description)}</dd><dt>📍 Dónde conseguirlo</dt><dd>${esc(r.where)}</dd><dt>🛠️ Cómo hacerlo</dt><dd>${esc(r.how)}</dd><dt>⏱ Tiempo</dt><dd>${esc(r.time || 'Por confirmar')}</dd><dt>⚠️ Ojo antes de incluirlo</dt><dd>${esc(r.check)}</dd></dl><div class="source">Fuente: ${esc(r.source)} · ${esc(r.date)}</div></div></article>`
           )
           .join('');
   fillExamples();
@@ -166,10 +183,15 @@ function edit(id) {
     'time',
     'check',
     'condition',
+    'validity',
     'source',
     'date'
   ])
-    form.elements[f].value = r ? r[f] : f === 'date' ? new Date().toISOString().slice(0, 10) : '';
+    form.elements[f].value = r
+      ? r[f] || ''
+      : f === 'date'
+        ? new Date().toISOString().slice(0, 10)
+        : '';
   form.elements.verified.checked = !!r?.verified;
   document.getElementById('mtitle').textContent = r ? 'Editar requisito' : 'Nuevo requisito';
   modal.showModal();
@@ -250,8 +272,30 @@ document.addEventListener('change', async e => {
     state.excluded[C.key(state, el.dataset.exclude)] = el.checked;
     save();
     folder();
+  } else if (el.dataset.issued) {
+    const k = C.key(state, el.dataset.issued);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(el.value)) state.dates[k] = el.value;
+    else delete state.dates[k];
+    const r = C.items(state).find(x => x.id === el.dataset.issued),
+      v = C.validityStatus(state.dates[k], r?.validity);
+    if (v?.status === 'vencido' && state.progress[k]) {
+      state.progress[k] = false;
+      toast(
+        'Este documento ya venció: lo desmarcamos. Vuelve a hacer el depósito y sácalo de nuevo.'
+      );
+    }
+    save();
+    folder();
   } else if (el.dataset.check) {
-    state.progress[C.key(state, el.dataset.check)] = el.checked;
+    const k = C.key(state, el.dataset.check),
+      r = C.items(state).find(x => x.id === el.dataset.check);
+    if (el.checked && C.validityStatus(state.dates[k], r?.validity)?.status === 'vencido') {
+      el.checked = false;
+      return toast(
+        'No puedes marcarlo: ya venció. Vuelve a hacer el depósito y anota la nueva fecha.'
+      );
+    }
+    state.progress[k] = el.checked;
     save();
     folder();
   } else if (el.id === 'filter') {
@@ -291,6 +335,7 @@ form.addEventListener('submit', e => {
     'time',
     'check',
     'condition',
+    'validity',
     'source',
     'date'
   ])

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AvanceController;
 use App\Http\Controllers\Api\CartaController;
 use App\Http\Controllers\Api\CatalogoController;
+use App\Http\Controllers\Api\SeguimientoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PanelController;
 use Illuminate\Support\Facades\Route;
@@ -20,11 +21,18 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/cuenta', [AuthController::class, 'cuenta']);
     Route::put('/cuenta', [AuthController::class, 'actualizarCuenta']);
+    Route::put('/cuenta/clave', [AuthController::class, 'cambiarClave']);
     Route::post('/salir', [AuthController::class, 'salir']);
 });
 
 // Panel de Kardex
-Route::get('/panel', [PanelController::class, 'index'])->middleware(['auth', 'kardex']);
+Route::middleware(['auth', 'kardex'])->prefix('panel')->group(function () {
+    Route::get('/', [PanelController::class, 'index']);
+    Route::get('/estudiantes/{user}', [PanelController::class, 'estudiante']);
+    Route::post('/estudiantes/{user}/notas', [PanelController::class, 'nota']);
+    Route::post('/estudiantes/{user}/clave', [PanelController::class, 'nuevaClave']);
+    Route::post('/colacion', [PanelController::class, 'colacion']);
+});
 
 // Datos que pide el JavaScript de la página
 Route::prefix('api')->group(function () {
@@ -33,4 +41,5 @@ Route::prefix('api')->group(function () {
     Route::get('/avance', [AvanceController::class, 'mostrar'])->middleware('auth');
     Route::put('/avance', [AvanceController::class, 'guardar'])->middleware('auth');
     Route::post('/cartas', [CartaController::class, 'registrar'])->middleware('throttle:30,1');
+    Route::post('/seguimiento', [SeguimientoController::class, 'registrar'])->middleware(['auth', 'throttle:20,1']);
 });

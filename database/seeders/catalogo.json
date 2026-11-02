@@ -55,7 +55,8 @@
         "time": "No informado en la fuente",
         "source": "Fotografía de convocatoria de titulación intermedia, agosto de 2026, recibida el 14/10/2026.",
         "date": "2026-10-14",
-        "verified": false
+        "verified": false,
+        "validity": "gestion"
       },
       {
         "id": "azul_plan",
@@ -267,7 +268,8 @@
         "time": "No informado en la fuente",
         "source": "Fotografía de requisitos de conclusión de estudios de Licenciatura, agosto de 2026, recibida el 14/10/2026.",
         "date": "2026-10-14",
-        "verified": false
+        "verified": false,
+        "validity": "gestion"
       },
       {
         "id": "naranja_plan",

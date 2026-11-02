@@ -88,6 +88,13 @@
           ></textarea>
         </label>
         <label>
+          ¿Vence?
+          <select name="validity">
+            <option value="">No vence</option>
+            <option value="gestion">Sí, vale hasta el 31 de diciembre del año en que se saca</option>
+          </select>
+        </label>
+        <label>
           Fuente consultada
           <input name="source" required maxlength="400" />
         </label>
@@ -118,8 +125,9 @@
 
     <script src="{{ asset('js/interfaz/ui.js') }}"></script>
     <script>
-      window.MiFolderServidor = {{ Js::from(['usuario' => auth()->user()?->only('name', 'rol'), 'aviso' => session('aviso')]) }};
+      window.MiFolderServidor = {{ Js::from(['usuario' => auth()->user()?->only('id', 'name', 'rol'), 'aviso' => session('aviso'), 'salio' => (bool) session('salio'), 'motivos' => \App\Models\Seguimiento::MOTIVOS]) }};
     </script>
     <script src="{{ asset('js/interfaz/servidor.js') }}"></script>
+    <script src="{{ asset('js/interfaz/ayudas.js') }}"></script>
   </body>
 </html>

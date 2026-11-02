@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ajuste;
 use App\Models\Nivel;
 use App\Models\Requisito;
 use Illuminate\Http\Request;
@@ -20,7 +21,15 @@ class CatalogoController extends Controller
             $procesos[$nivel->clave] = (string) $nivel->proceso;
         }
 
-        return ['catalog' => $catalogo, 'process' => $procesos];
+        return [
+            'catalog' => $catalogo,
+            'process' => $procesos,
+            // Fecha límite para presentar documentos al acto de colación (la pone Kardex en el panel).
+            'colacion' => [
+                'fecha' => Ajuste::leer('colacion_fecha'),
+                'texto' => Ajuste::leer('colacion_texto'),
+            ],
+        ];
     }
 
     // Reemplaza la lista completa de un folder (así también se guarda el orden).
@@ -38,6 +47,7 @@ class CatalogoController extends Controller
             'requisitos.*.time' => ['nullable', 'string', 'max:150'],
             'requisitos.*.check' => ['required', 'string', 'max:1000'],
             'requisitos.*.condition' => ['nullable', 'string', 'max:2000'],
+            'requisitos.*.validity' => ['nullable', 'in:'.implode(',', Requisito::VIGENCIAS)],
             'requisitos.*.source' => ['required', 'string', 'max:400'],
             'requisitos.*.date' => ['required', 'date_format:Y-m-d'],
             'requisitos.*.verified' => ['boolean'],
