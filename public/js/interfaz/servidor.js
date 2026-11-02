@@ -64,7 +64,10 @@ save = function () {
 /* ---------- Editor: solo con la cuenta de Kardex ---------- */
 editorUnlocked = () => esKardex;
 editorLock = function () {
-  app.innerHTML = `<section class="lock"><div class="lock-icon">🔐</div><span class="eyebrow">Solo personal autorizado</span><h1>Editor de la guía</h1><p class="lead">Esta sección es para el personal de Kardex. Ingresa con tu cuenta para continuar.</p><a class="button primary big" href="/ingresar">Ingresar</a></section>`;
+  const accion = usuario
+    ? `<p class="lead">Tu cuenta es de estudiante, así que no puede editar la guía.</p><a class="button primary big" href="#inicio">Volver a mis folders</a>`
+    : `<p class="lead">Esta sección es para el personal de Kardex. Ingresa con tu cuenta para continuar.</p><a class="button primary big" href="/ingresar">Ingresar</a>`;
+  app.innerHTML = `<section class="lock"><div class="lock-icon">🔐</div><span class="eyebrow">Solo personal autorizado</span><h1>Editor de la guía</h1>${accion}</section>`;
 };
 adminBar = function () {
   return `<div class="admin-bar no-print"><span>🔓 Editando como ${esc(usuario?.name || '')}. Los cambios se guardan para todos.</span><div class="actions"><a class="button small" href="/panel">Ver panel</a></div></div>`;
@@ -78,7 +81,9 @@ home = function () {
   if (!tira) return;
   tira.insertAdjacentHTML(
     'afterend',
-    usuario
+    esKardex
+      ? `<div class="callout info compact">🗂️ Estás como <strong>personal de Kardex</strong>. <a href="/panel">Ver panel</a> o <a href="#editor">editar la guía</a>.</div>`
+      : usuario
       ? `<div class="callout info compact">👋 Hola, <strong>${esc(usuario.name)}</strong>. Tu avance se guarda en tu cuenta.</div>`
       : `<div class="callout info compact cuenta-aviso">💾 ¿Quieres ver tu avance desde cualquier computadora? <a href="/registro"><strong>Crea tu cuenta gratis</strong></a> o <a href="/ingresar">ingresa</a>.</div>`
   );

@@ -17,7 +17,11 @@ Route::middleware('guest')->group(function () {
     Route::get('/registro', [AuthController::class, 'mostrarRegistro']);
     Route::post('/registro', [AuthController::class, 'registrar']);
 });
-Route::post('/salir', [AuthController::class, 'salir'])->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::get('/cuenta', [AuthController::class, 'cuenta']);
+    Route::put('/cuenta', [AuthController::class, 'actualizarCuenta']);
+    Route::post('/salir', [AuthController::class, 'salir']);
+});
 
 // Panel de Kardex
 Route::get('/panel', [PanelController::class, 'index'])->middleware(['auth', 'kardex']);

@@ -66,6 +66,29 @@ class AuthController extends Controller
         return redirect('/')->with('aviso', '¡Cuenta creada! Tu avance ahora se guarda en tu cuenta.');
     }
 
+    // Página "Mi cuenta": datos del usuario y botón para salir.
+    public function cuenta(Request $request)
+    {
+        $user = $request->user();
+        $avance = $user->avance()->first();
+
+        return view('auth.cuenta', [
+            'user' => $user,
+            'marcados' => $avance ? count($avance->marcados ?? []) : 0,
+        ]);
+    }
+
+    public function actualizarCuenta(Request $request)
+    {
+        $datos = $request->validate([
+            'name' => ['required', 'string', 'max:120'],
+            'registro_universitario' => ['nullable', 'string', 'max:40'],
+        ]);
+        $request->user()->update($datos);
+
+        return back()->with('ok', 'Datos guardados.');
+    }
+
     public function salir(Request $request)
     {
         Auth::logout();

@@ -22,9 +22,9 @@
     <label for="email">Correo</label>
     <input id="email" name="email" type="email" value="{{ old('email') }}" required autocomplete="email" />
     <label for="password">Contraseña (mínimo 8 caracteres)</label>
-    <input id="password" name="password" type="password" required autocomplete="new-password" />
+    <div class="clave"><input id="password" name="password" type="password" required autocomplete="new-password" /><button type="button" data-ver-clave>Mostrar</button></div>
     <label for="password_confirmation">Repite la contraseña</label>
-    <input id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password" />
+    <div class="clave"><input id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password" /><button type="button" data-ver-clave>Mostrar</button></div>
     <button class="primary" style="width: 100%; margin-top: 16px">Crear mi cuenta</button>
     <p class="muted">¿Ya tienes cuenta? <a href="{{ url('/ingresar') }}">Ingresa</a>.</p>
   </form>

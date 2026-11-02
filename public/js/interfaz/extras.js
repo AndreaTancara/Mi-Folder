@@ -243,7 +243,7 @@ document.addEventListener('click', async e => {
 /* ---------- Imágenes de ejemplo de cada documento ----------
    Dos formas de tenerlas:
    1) El personal de Kardex las sube desde el editor (con clave). Quedan guardadas en este navegador.
-   2) Para que salgan en cualquier computadora: copiar la imagen en la carpeta dist/ejemplos/
+   2) Para que salgan en cualquier computadora: copiar la imagen en la carpeta public/ejemplos/
       con el nombre del requisito, por ejemplo  ejemplos/azul_ci.jpg  (el editor muestra el nombre). */
 const IMG_DB = 'mi-folder-imagenes';
 function imgDB() {

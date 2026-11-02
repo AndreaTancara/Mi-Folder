@@ -29,19 +29,12 @@
         <a href="#inicio">Mis folders</a>
         <a href="#cartas">Cartas</a>
         <a href="#guia">Ayuda</a>
-        @auth
-          @if (auth()->user()->esKardex())
-            <a href="{{ url('/panel') }}">Panel Kardex</a>
-          @endif
-          <form method="POST" action="{{ url('/salir') }}" class="nav-form">
-            @csrf
-            <button class="link">Salir ({{ Str::before(auth()->user()->name, ' ') }})</button>
-          </form>
-        @else
-          <a href="{{ url('/ingresar') }}">Ingresar</a>
-        @endauth
+        @if (auth()->user()?->esKardex())
+          <a href="{{ url('/panel') }}">Panel Kardex</a>
+        @endif
         <a href="#asistente" class="nav-cta">Empezar</a>
       </nav>
+      @include('partes.cuenta')
     </header>
     <main id="app"></main>
     <footer>

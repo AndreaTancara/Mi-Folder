@@ -36,7 +36,9 @@
   });
   label();
   const header = document.querySelector('header');
-  if (header) header.appendChild(btn);
+  // El botón de tema va junto al botón de la cuenta (si existe).
+  const tools = document.querySelector('.header-tools') || header;
+  if (tools) tools.appendChild(btn);
 
   /* ---------- Sombra del encabezado al hacer scroll ---------- */
   const onScroll = () => header && header.classList.toggle('scrolled', window.scrollY > 8);

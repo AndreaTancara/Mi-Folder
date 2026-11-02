@@ -128,26 +128,107 @@ ol {
   }
 }
 
-/* Laravel: botón Salir dentro del menú y páginas de cuenta / panel */
-.nav-form {
-  display: inline;
-  margin: 0;
+/* ---------- Laravel: cuenta, páginas de ingreso y panel ---------- */
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.nav-form button.link {
-  background: none;
-  border: 0;
-  padding: 0;
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
+.cuenta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 4px 14px 4px 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.cuenta-chip:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+.cuenta-chip .avatar {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-2), var(--accent));
+  color: #fff;
+  font-weight: 700;
+}
+.cuenta-chip.invitado .avatar {
+  background: rgba(15, 118, 110, 0.12);
+  font-size: 16px;
 }
 .cuenta {
   max-width: 440px;
   margin: 20px auto;
 }
 .cuenta .errores {
-  color: #9d3232;
+  color: #b42318;
   font-size: 14px;
+}
+.cuenta .ok {
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
+}
+.cuenta .datos {
+  margin: 18px 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 16px;
+  font-size: 14px;
+}
+.cuenta .datos dt {
+  color: var(--muted);
+}
+.cuenta .datos dd {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.cuenta .acciones {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+.cuenta .acciones form {
+  margin: 0;
+}
+.cuenta .acciones button,
+.cuenta .acciones .button {
+  width: 100%;
+}
+.clave {
+  position: relative;
+}
+.clave input {
+  padding-right: 84px;
+}
+.clave button {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 10px;
+  font-size: 12px;
+}
+.error-pagina {
+  text-align: center;
+  max-width: 520px;
+  margin: 40px auto;
+}
+.error-pagina .icono {
+  font-size: 54px;
 }
 .panel-grid {
   display: grid;
@@ -169,4 +250,39 @@ ol {
   text-align: left;
   padding: 10px 6px;
   border-bottom: 1px solid var(--line);
+}
+@media (max-width: 780px) {
+  .header-tools {
+    position: absolute;
+    right: 16px;
+    top: 12px;
+    gap: 8px;
+  }
+  .header-tools .theme-toggle {
+    position: relative;
+    top: auto;
+    right: auto;
+  }
+  .cuenta-chip {
+    height: 40px;
+    padding: 3px;
+  }
+  .cuenta-chip .avatar {
+    width: 32px;
+    height: 32px;
+  }
+  .cuenta-chip .cuenta-nombre {
+    display: none;
+  }
+  .cuenta-chip.invitado {
+    padding-right: 12px;
+  }
+  .cuenta-chip.invitado .cuenta-nombre {
+    display: inline;
+  }
+}
+@media (max-width: 420px) {
+  .brand small {
+    display: none;
+  }
 }

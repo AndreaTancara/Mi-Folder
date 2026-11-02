@@ -135,4 +135,21 @@ class MiFolderTest extends TestCase
         $this->assertSame('Editado por Kardex', Requisito::where('codigo', 'azul_ci')->value('titulo'));
         $this->assertSame(1, User::where('rol', 'kardex')->count());
     }
+
+    public function test_mi_cuenta_muestra_y_guarda_los_datos(): void
+    {
+        $this->get('/cuenta')->assertRedirect('/ingresar');
+
+        $e = User::factory()->create(['name' => 'Ana Quispe']);
+        $this->actingAs($e)->get('/cuenta')->assertOk()->assertSee('Cerrar sesión')->assertSee($e->email);
+        $this->actingAs($e)->put('/cuenta', ['name' => 'Ana Q. Mamani', 'registro_universitario' => '201900123'])
+            ->assertRedirect();
+        $this->assertSame('201900123', $e->fresh()->registro_universitario);
+    }
+
+    public function test_la_pagina_sin_permiso_explica_que_es_solo_para_kardex(): void
+    {
+        $this->actingAs(User::factory()->create())->get('/panel')
+            ->assertForbidden()->assertSee('solo para Kardex')->assertSee('Volver a Mi Folder');
+    }
 }
